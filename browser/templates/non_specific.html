@@ -1,0 +1,107 @@
+{% extends "index.html" %}
+{% block body %}
+  <div id="content">
+    <div id="form-outer-wrapper">
+      <!--<div id="form-inner-wrapper">-->
+        <!--<h2>Test API</h2>-->
+        {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+        <br/><br/>
+        <div class="container col-lg-6">
+          <div style="padding-bottom: 0.5cm">
+            <div class="card text-center bg-light">
+              <div class="card-body" style="padding-bottom: 0.2cm">
+                <input class="card-title form-control" type="text" id="input" name="input" placeholder="Input sentence"/>
+                <button class="card-text btn btn-outline-primary" id="btn">Find Entities</button>
+                <div class="spinner" id="spinner" style="display: none">
+                  <div class="double-bounce1"></div>
+                  <div class="double-bounce2"></div>
+                </div>
+              </div>
+              <div class="card-footer bg-white">
+                <pre class="card-text api-pre" style="padding-bottom: 0.2cm">
+                  <div class="item" id="api_input"></div>
+                  <div class="item" id="api_output"></div>
+                </pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!--</div>-->
+    </div>
+  </div>
+{% endblock %}
+{% block footer_extra %}
+
+    <script type="text/javascript" charset="utf-8">
+
+        var loadie_status = 0;
+        var interval_var;
+        var max_response_time = 60;
+        var processing_msg;
+
+        function api_call(input) {
+            // hide button and make the spinner appear
+            $('#btn').toggle();
+            $('#spinner').toggle();
+            $.ajax({
+                url: "http://{{ API_IP }}/api/v1/infer",
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({text: input}),
+                success: function( data, textStatus, jQxhr ){
+                    // toggle the spinner and button
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
+                    // fill the html for answer
+                    $('#api_input').html( data.input );
+                    $('#api_output').html( data.output );
+                    $("#input").val("");
+                    $('.loader-wrapper').loadie(1);
+                    clearInterval(interval_var);
+                    setTimeout(function(){ $('.loader-wrapper').hide(500);}, 2500);
+                    jsFlash('success_ajax','Success', 2500);
+                    setHideDelay(processing_msg, 500);
+                    loadie_status = 0;
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    $('#btn').toggle();
+                    $('#spinner').toggle();
+                    $('#api_input').html( "Sorry, the server is asleep..." );
+                    $('#api_output').html( "Try again in a moment!" );
+                    console.log( errorThrown );
+                    clearInterval(interval_var);
+                    jsFlash('error_ajax','Request failed (' + this.status + ')... If this persists, please contact system administrator.');
+                    $('.loader-wrapper').hide(500);
+                    setHideDelay(processing_msg, 500);
+                    loadie_status = 0;
+                },
+                timeout: max_response_time * 1000 // sets timeout to 30 seconds
+            });
+            interval_var = setInterval(function(){loadie_status += 1/max_response_time; $('.loader-wrapper').loadie(loadie_status);}, 1000);
+        }
+
+        function pre_api_call() {
+            processing_msg = jsFlash('processing_ajax','Processing...');
+            $('.loader-wrapper').html('');
+            $('.loader-wrapper').data('loadie-loaded',0);
+            $('.loader-wrapper').show();
+            $('.loader-wrapper').loadie(0);
+        }
+
+        $( document ).ready(function() {
+            var ldw = $('<div/>').addClass('loader-wrapper').hide();
+            $('#flash-msg').append(ldw);
+            // request when clicking on the button
+            $('#btn').click(function() {
+                // get the input data
+                var input = $("#input").val();
+                console.log(input);
+                console.log(JSON.stringify())
+                pre_api_call();
+                api_call(input);
+                input = "";
+            });
+        });
+    </script>
+{% endblock %}

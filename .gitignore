@@ -1,0 +1,9 @@
+.idea
+__pycache__
+*.cache
+*.pid
+*.log
+model/*
+!model/best_bleu
+model/best_bleu/*
+data/*

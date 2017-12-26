@@ -1,0 +1,1 @@
+web: gunicorn nmt-api:app

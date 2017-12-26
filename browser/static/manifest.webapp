@@ -1,0 +1,17 @@
+{
+  "name": "API Consumer",
+  "description": "Human Forecast API Consumer",
+  "version": "0.1",
+  "manifest_version": 1,
+  "icons": {
+    "59": "favicon.ico"
+  },
+  "app": {
+    "urls": [
+      "http://130.211.59.105/"
+    ],
+    "launch": {
+      "web_url": "http://130.211.59.105/"
+    }
+  }
+}
