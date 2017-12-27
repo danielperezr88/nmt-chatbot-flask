@@ -4,8 +4,8 @@ RUN apt-get update && apt-get install -y \
         python-dev \
         build-essential
 
-#RUN git clone https://github.com/danielperezr88/nmt-chatbot-flask.git && \
-RUN mkdir model && mkdir model/best_bleu && cd model/best_bleu && \
+RUN git clone https://github.com/danielperezr88/nmt-chatbot-flask.git && \
+    mkdir nmt-chatbot-flask/model && mkdir nmt-chatbot-flask/model/best_bleu && cd nmt-chatbot-flask/model/best_bleu && \
 	wget https://storage.googleapis.com/datasets-hf/reddit-chatbot/2015-05/model/best_bleu/checkpoint && \
 	wget https://storage.googleapis.com/datasets-hf/reddit-chatbot/2015-05/model/best_bleu/hparams && \
 	wget https://storage.googleapis.com/datasets-hf/reddit-chatbot/2015-05/model/best_bleu/translate.ckpt-16000.meta && \
