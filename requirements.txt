@@ -1,4 +1,6 @@
+tensorflow==1.4.1
 gunicorn==19.7.1
 Flask==0.12
 Flask-Cors==3.0
 requests==2.18.4
+regex
