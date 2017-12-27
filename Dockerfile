@@ -19,7 +19,8 @@ RUN git clone https://github.com/danielperezr88/nmt-chatbot-flask.git && \
 	wget https://storage.googleapis.com/datasets-hf/reddit-chatbot/2015-05/model/translate.ckpt-34000.index && \
 	wget https://storage.googleapis.com/datasets-hf/reddit-chatbot/2015-05/model/translate.ckpt-34000.data-00000-of-00001
 
-WORKDIR nmt-chatbot-flask
+ADD ./nmt-chatbot-flask /opt/webapp
+WORKDIR /opt/webapp
 
 RUN pip install -qr requirements.txt
 

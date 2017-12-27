@@ -1,1 +1,1 @@
-web: gunicorn nmt-api:app
+web: gunicorn web:app
