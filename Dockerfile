@@ -24,4 +24,4 @@ WORKDIR /opt/webapp
 
 RUN pip install -qr requirements.txt
 
-CMD gunicorn --bind 0.0.0.0:80 nmt-api:app --log-file=gunicorn.log
+CMD gunicorn --bind 0.0.0.0:80 web:app --log-file=gunicorn.log
