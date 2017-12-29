@@ -4,3 +4,4 @@ Flask==0.12
 Flask-Cors==3.0
 requests==2.18.4
 regex
+gevent

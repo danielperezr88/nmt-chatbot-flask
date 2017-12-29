@@ -36,7 +36,7 @@
 
         var loadie_status = 0;
         var interval_var;
-        var max_response_time = 60;
+        var max_response_time = 120;
         var processing_msg;
 
         function api_call(input) {
@@ -44,7 +44,7 @@
             $('#btn').toggle();
             $('#spinner').toggle();
             $.ajax({
-                url: "http://{{ API_IP }}/api/v1/infer",
+                url: "http://" + document.domain + "/api/v1/infer",
                 type: 'POST',
                 contentType: 'application/json',
                 dataType: 'json',
@@ -69,9 +69,8 @@
                     $('#spinner').toggle();
                     $('#api_input').html( "Sorry, the server is asleep..." );
                     $('#api_output').html( "Try again in a moment!" );
-                    console.log( errorThrown );
                     clearInterval(interval_var);
-                    jsFlash('error_ajax','Request failed (' + this.status + ')... If this persists, please contact system administrator.');
+                    jsFlash('error_ajax','Request failed (' + textStatus + ')... If this persists, please contact system administrator.');
                     $('.loader-wrapper').hide(500);
                     setHideDelay(processing_msg, 500);
                     loadie_status = 0;
@@ -96,8 +95,6 @@
             $('#btn').click(function() {
                 // get the input data
                 var input = $("#input").val();
-                console.log(input);
-                console.log(JSON.stringify())
                 pre_api_call();
                 api_call(input);
                 input = "";

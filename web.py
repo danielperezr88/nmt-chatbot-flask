@@ -41,7 +41,7 @@ def index():
 
 @app.route('/non_specific', methods=['GET'])
 def non_specific():
-    return render_template('non_specific.html', API_IP=API_IP if API_IP != MY_IP else 'localhost')
+    return render_template('non_specific.html', API_IP=API_IP)
 
 
 @app.route('/api/v1/infer', methods=['POST'])
